@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>College Login / Signup</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 15px;
+      background: linear-gradient(180deg, #ffb347, #ff6b6b);
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: start;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #fffaf4;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .container h2 {
+      text-align: center;
+      font-size: 1.6em;
+      font-weight: bold;
+      color: #d35400;
+      margin-bottom: 15px;
+    }
+
+    .toggle {
+      display: flex;
+      justify-content: space-around;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .toggle button {
+      flex: 1;
+      background: #e67e22;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 15px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .toggle button.active {
+      background: #c0392b;
+    }
+
+    form {
+      display: none;
+      width: 100%;
+    }
+    form.active {
+      display: block;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 14px;
+      margin: 12px 0 5px;
+      color: #444;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #f39c12;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    input:focus {
+      border-color: #e67e22;
+      outline: none;
+    }
+
+    input[type="submit"] {
+      width: 100%;
+      padding: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      margin-top: 20px;
+      background: #e67e22;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    input[type="submit"]:hover {
+      background: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 id="formTitle">📚 Student Login</h2>
+
+    <div class="toggle">
+      <button id="studentBtn" class="active">Student</button>
+      <button id="adminBtn">Admin</button>
+    </div>
+
+    <!-- Student Form -->
+    <form id="studentForm" class="active" method="post" action="">
+      {% csrf_token %}
+      <input type="hidden" name="form_type" value="student">
+      
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" placeholder="Enter name" required />
+      {% if form.name.errors %}
+        {% for error in form.name.errors %}
+          <span style="color: red; font-size: 12px;">{{ error }}</span>
+        {% endfor %}
+      {% endif %}
+
+      <label for="roll_number">Roll Number</label>
+      <input type="text" id="roll_number" name="roll_number" placeholder="Enter roll no." required />
+      {% if form.roll_number.errors %}
+        {% for error in form.roll_number.errors %}
+          <span style="color: red; font-size: 12px;">{{ error }}</span>
+        {% endfor %}
+      {% endif %}
+
+      <label for="email">Email (optional)</label>
+      <input type="email" id="email" name="email" placeholder="Enter email" />
+      {% if form.email.errors %}
+        {% for error in form.email.errors %}
+          <span style="color: red; font-size: 12px;">{{ error }}</span>
+        {% endfor %}
+      {% endif %}
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter password" required />
+      {% if form.password.errors %}
+        {% for error in form.password.errors %}
+          <span style="color: red; font-size: 12px;">{{ error }}</span>
+        {% endfor %}
+      {% endif %}
+
+      <input type="submit" value="🟢 Login / Signup">
+    </form>
+
+    <!-- Admin Form -->
+    <form id="adminForm" method="post" action="">
+      {% csrf_token %}
+      <input type="hidden" name="form_type" value="admin">
+      
+      <label for="admin_name">Name</label>
+      <input type="text" id="admin_name" name="name" placeholder="Enter admin name" required />
+      {% if form.name.errors %}
+        {% for error in form.name.errors %}
+          <span style="color: red; font-size: 12px;">{{ error }}</span>
+        {% endfor %}
+      {% endif %}
+
+      <label for="admin_email">Email</label>
+      <input type="email" id="admin_email" name="email" placeholder="Enter admin email" required />
+      {% if form.email.errors %}
+        {% for error in form.email.errors %}
+          <span style="color: red; font-size: 12px;">{{ error }}</span>
+        {% endfor %}
+      {% endif %}
+
+      <label for="admin_roll_number">Roll Number</label>
+      <input type="text" id="admin_roll_number" name="roll_number" placeholder="Enter admin ID" required />
+      {% if form.roll_number.errors %}
+        {% for error in form.roll_number.errors %}
+          <span style="color: red; font-size: 12px;">{{ error }}</span>
+        {% endfor %}
+      {% endif %}
+
+      <label for="admin_password">Password</label>
+      <input type="password" id="admin_password" name="password" placeholder="Enter password" required />
+      {% if form.password.errors %}
+        {% for error in form.password.errors %}
+          <span style="color: red; font-size: 12px;">{{ error }}</span>
+        {% endfor %}
+      {% endif %}
+
+      <input type="submit" value="🔐 Login / Signup">
+    </form>
+  </div>
+
+  <script>
+    const studentBtn = document.getElementById("studentBtn");
+    const adminBtn = document.getElementById("adminBtn");
+    const studentForm = document.getElementById("studentForm");
+    const adminForm = document.getElementById("adminForm");
+    const formTitle = document.getElementById("formTitle");
+
+    studentBtn.addEventListener("click", () => {
+      studentBtn.classList.add("active");
+      adminBtn.classList.remove("active");
+      studentForm.classList.add("active");
+      adminForm.classList.remove("active");
+      formTitle.innerText = "📚 Student Login";
+    });
+
+    adminBtn.addEventListener("click", () => {
+      adminBtn.classList.add("active");
+      studentBtn.classList.remove("active");
+      adminForm.classList.add("active");
+      studentForm.classList.remove("active");
+      formTitle.innerText = "🔐 Admin Login";
+    });
+
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>College Canteen - Mobile Fixed</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0; padding: 0;
+      display: flex;
+      flex-direction: column;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(180deg, #ffb347, #ff6b6b);
+      color: #333;
+    }
+
+    nav {
+      flex-shrink: 0;
+      background: #fffaf4;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      position: relative;
+    }
+    .logo {
+      font-weight: 900;
+      font-size: 1.5rem;
+      color: #d35400;
+      user-select: none;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .menu-toggle {
+      display: flex;
+      background: #e67e22;
+      border-radius: 24px;
+      overflow: hidden;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      flex-grow: 1;
+      max-width: 280px;
+      min-width: 180px;
+    }
+    .menu-toggle button {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: 14px;
+      color: white;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    .menu-toggle button.active {
+      background: #c0392b;
+    }
+    .search-container {
+      flex-grow: 2;
+      min-width: 140px;
+      max-width: 320px;
+    }
+    .search-container input[type="search"] {
+      width: 100%;
+      padding: 10px 16px;
+      border-radius: 20px;
+      border: 2px solid #f39c12;
+      font-size: 15px;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+    .search-container input[type="search"]:focus {
+      border-color: #e67e22;
+    }
+    .user-profile {
+      font-size: 1.9rem;
+      user-select: none;
+      cursor: pointer;
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #e67e22;
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+
+
+
+
+
+
+
+.profile-popup {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 280px;
+  background: #fffaf4;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 100;
+  display: none;
+  flex-direction: column;
+  border: 2px solid #f39c12;
+}
+.profile-popup.show {
+  display: flex;
+}
+.profile-popup h3 {
+  margin: 0 0 15px 0;
+  font-weight: 800;
+  color: #d35400;
+  font-size: 1.3rem;
+  text-align: center;
+  border-bottom: 2px solid #ffdca6;
+  padding-bottom: 10px;
+}
+.profile-info {
+  margin-bottom: 20px;
+}
+.profile-info p {
+  margin: 8px 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #4e342e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.profile-info .label {
+  color: #d35400;
+  font-weight: 700;
+}
+.profile-info .value {
+  color: #3e2723;
+  font-weight: 600;
+}
+.profile-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.profile-btn {
+  width: 100%;
+  padding: 12px 0;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+.profile-btn.change-password {
+  background: #e67e22;
+}
+.profile-btn.change-password:hover {
+  background: #ca6b18;
+}
+.profile-btn.logout {
+  background: #d35400;
+}
+.profile-btn.logout:hover {
+  background: #b84300;
+}
+
+
+
+
+
+
+
+
+    /* Mobile 3-dot menu in nav */
+    .nav-more-button {
+      display: none;
+      background: transparent;
+      border: none;
+      font-size: 28px;
+      color: #6d4c41;
+      cursor: pointer;
+      user-select: none;
+      padding: 6px 8px;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+      position: relative;
+      z-index: 60;
+      margin-left: 8px;
+    }
+    .nav-more-button:hover {
+      background: #ffd27d;
+    }
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: #ffcc80;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      padding: 8px 0;
+      min-width: 160px;
+      z-index: 75;
+      display: none;
+      flex-direction: column;
+    }
+    .dropdown-menu.show {
+      display: flex;
+    }
+    .dropdown-menu button {
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      padding: 12px 18px;
+      font-weight: 700;
+      font-size: 14px;
+      color: #4e342e;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .dropdown-menu button:hover {
+      background: #ffb74d;
+    }
+
+    /* Desktop Grid Layout */
+    main.parent {
+      flex-grow: 1;
+      min-height: 0;
+      width: 100vw;
+      max-width: 100vw;
+      margin: 0;
+      padding: 15px 25px;
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 15px;
+      background: #fffaf4;
+      border-radius: 0 0 14px 14px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      color: black;
+    }
+
+    /* Grid 1 - Food Details (Left, Full Height) */
+    .div1 {
+      background: #ffcc80;
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      color: #3e2723;
+      font-weight: 700;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      border-radius: 12px;
+      box-sizing: border-box;
+    }
+    .div1 img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-bottom: 14px;
+      object-fit: cover;
+      height: 180px;
+    }
+    .div1 .price {
+      font-size: 1.3rem;
+      color: #d35400;
+      margin-top: 10px;
+      font-weight: 800;
+    }
+    .div1 .rating {
+      margin-top: 8px;
+      color: #388e3c;
+      font-weight: 700;
+    }
+    .div1 .type-label {
+      margin-top: 8px;
+      font-weight: 700;
+      color: #b71c1c;
+    }
+    .div1 .order-number {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #2e7d32;
+      background: #c8e6c9;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      user-select: text;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .div1 .btn-group {
+      margin-top: auto;
+      display: flex;
+      gap: 12px;
+      padding-top: 20px;
+    }
+    .div1 button {
+      flex: 1;
+      padding: 14px 0;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+    .btn-add {
+      background: #e67e22;
+    }
+    .btn-add:hover {
+      background: #ca6b18;
+    }
+    .btn-place {
+      background: #d35400;
+    }
+    .btn-place:hover {
+      background: #b84300;
+    }
+
+    /* Grid 2 - Promotions (Top Middle) */
+    .div2 {
+      background: #ffdca6;
+      grid-column: 2;
+      grid-row: 1;
+      border-radius: 12px;
+      padding: 16px;
+      box-sizing: border-box;
+      overflow-y: auto;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #4e342e;
+    }
+    .div2 h3 {
+      margin-top: 0;
+      color: #d35400;
+      font-size: 1.3rem;
+    }
+
+    /* Grid 3 - Cart (Top Right) */
+    .div3 {
+      background: #ffdca6;
+      grid-column: 3;
+      grid-row: 1;
+      padding: 16px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+    .cart-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: #b71c1c;
+      text-align: center;
+    }
+    .cart-items {
+      flex-grow: 1;
+      overflow-y: auto;
+      min-height: 0;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 10px;
+      border-bottom: 1px solid #fbc68d;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #5d4037;
+    }
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+    .cart-total {
+      font-weight: 800;
+      font-size: 1.1rem;
+      margin-top: 10px;
+      text-align: right;
+      color: #d35400;
+    }
+    .place-order-container {
+      margin-top: 14px;
+      background: #f57c00;
+      border-radius: 8px;
+      padding: 12px;
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease;
+    }
+    .place-order-container:hover {
+      background: #ef6c00;
+    }
+    .place-order-description {
+      font-weight: 400;
+      font-size: 0.8rem;
+      margin-top: 6px;
+      color: #fff3e0;
+    }
+
+    /* Grid 4 - Reviews (Bottom Right) */
+    .div4 {
+      background: #ffdca6;
+      grid-column: 3;
+      grid-row: 2;
+      border-radius: 12px;
+      padding: 16px;
+      box-sizing: border-box;
+      overflow-y: auto;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #4e342e;
+    }
+    .div4 h3 {
+      margin-top: 0;
+      color: #d35400;
+      font-size: 1.2rem;
+    }
+
+    /* Grid 5 - Menu List (Bottom Middle) */
+    .div5 {
+      background: #ffe0b2;
+      grid-column: 2;
+      grid-row: 2;
+      font-weight: 700;
+      font-size: 1.1rem;
+      overflow-y: auto;
+      color: #4e342e;
+      padding: 16px;
+      border-radius: 12px;
+      box-sizing: border-box;
+    }
+    .div5::-webkit-scrollbar, .div1::-webkit-scrollbar, .div3::-webkit-scrollbar {
+      width: 6px;
+    }
+    .div5::-webkit-scrollbar-thumb, .div1::-webkit-scrollbar-thumb, .div3::-webkit-scrollbar-thumb {
+      background-color: #e67e22;
+      border-radius: 10px;
+    }
+    .menu-item {
+      padding: 10px 12px;
+      margin: 8px 4px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+      user-select: none;
+      font-size: 1rem;
+    }
+    .menu-item:hover, .menu-item.active {
+      background: #ffb74d;
+    }
+
+    /* MOBILE STYLES - MAJOR FIX */
+    @media (max-width: 675px) {
+      nav {
+        padding: 8px 10px;
+        gap: 6px;
+      }
+      .logo {
+        font-size: 1.1rem;
+      }
+      .menu-toggle {
+        max-width: 180px;
+        min-width: 120px;
+      }
+      .menu-toggle button {
+        font-size: 11px;
+        padding: 6px 8px;
+        gap: 2px;
+      }
+      .search-container {
+        min-width: 80px;
+        max-width: 140px;
+      }
+      .search-container input[type="search"] {
+        padding: 6px 8px;
+        font-size: 12px;
+      }
+      .user-profile {
+        font-size: 1.4rem;
+        width: 32px;
+        height: 32px;
+      }
+      .nav-more-button {
+        display: block;
+        font-size: 20px;
+        padding: 4px;
+        margin-left: 4px;
+      }
+      .dropdown-menu {
+        top: 42px;
+        right: 6px;
+        min-width: 120px;
+      }
+
+      /* COMPLETELY REDESIGNED MOBILE GRID */
+      main.parent {
+        display: flex;
+        flex-direction: row;
+        padding: 8px 6px;
+        gap: 6px;
+        height: calc(100vh - 70px); /* Account for nav height */
+      }
+      
+      /* Menu List - Left Side (Much Wider Now) */
+      .div5 {
+        flex: 0 0 35%; /* Fixed 35% width */
+        background: #ffe0b2;
+        padding: 8px;
+        overflow-y: auto;
+        border-radius: 8px;
+        display: flex !important;
+        flex-direction: column;
+      }
+      .div5 h3 {
+        font-size: 0.9rem;
+        margin: 0 0 8px 0;
+        text-align: center;
+        color: #d35400;
+      }
+      .menu-item {
+        padding: 12px 8px;
+        margin: 3px 0;
+        font-size: 0.9rem;
+        border-radius: 6px;
+        line-height: 1.3;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .menu-item.active {
+        background: #ffb74d;
+        font-weight: 800;
+      }
+      
+      /* Food Detail - Right Side */
+      .div1 {
+        flex: 1; /* Take remaining space */
+        background: #ffcc80;
+        padding: 10px;
+        overflow-y: auto;
+        border-radius: 8px;
+        min-height: 0;
+        display: flex !important;
+        flex-direction: column;
+      }
+      .div1 img {
+        height: 120px;
+        margin-bottom: 8px;
+        border-radius: 8px;
+      }
+      .div1 h2 {
+        font-size: 1.2rem;
+        margin: 8px 0 6px 0;
+      }
+      .div1 p {
+        margin: 4px 0;
+        font-size: 0.85rem;
+        line-height: 1.3;
+      }
+      .div1 .price {
+        font-size: 1.1rem;
+        margin-top: 6px;
+      }
+      .div1 .rating, .div1 .type-label {
+        margin-top: 4px;
+        font-size: 0.8rem;
+      }
+      .div1 .order-number {
+        font-size: 1rem;
+        padding: 10px;
+        margin-top: 10px;
+      }
+      
+      /* Mobile Buttons */
+      .div1 .btn-group {
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding-top: 10px;
+      }
+      .div1 button {
+        width: 100%;
+        padding: 10px 0;
+        font-size: 0.9rem;
+        border-radius: 6px;
+      }
+      
+      /* Hide other grids completely */
+      .div2, .div3, .div4 {
+        display: none !important;
+      }
+      .place-order-container {
+        display: none !important;
+      }
+    }
+
+    /* Extra small screens */
+    @media (max-width: 480px) {
+      .div5 {
+        flex: 0 0 40%; /* Slightly wider on very small screens */
+      }
+      .menu-item {
+        font-size: 0.8rem;
+        padding: 10px 6px;
+      }
+      .div1 {
+        padding: 8px;
+      }
+      .div1 img {
+        height: 100px;
+      }
+      .div1 h2 {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">College Canteen</div>
+    <div class="menu-toggle" role="tablist" aria-label="Menu Toggle">
+      <button id="vegBtn" class="active" aria-selected="true" tabindex="0" aria-label="Vegetarian menu 🌱">🌱 Veg</button>
+      <button id="nonVegBtn" aria-selected="false" tabindex="-1" aria-label="Non-vegetarian menu 🍖">🍖 Non‑Veg</button>
+      <button id="dessertBtn" aria-selected="false" tabindex="-1" aria-label="Dessert menu 🍰">🍰 Dessert</button>
+    </div>
+    <div class="search-container">
+      <input type="search" id="menuSearch" placeholder="Search menu items..." aria-label="Search menu" />
+    </div>
+    <div class="user-profile" title="User Profile" aria-label="User profile emoji"></div>
+
+
+
+
+
+
+
+<div class="profile-popup" id="profilePopup">
+  <h3>👤 Profile</h3>
+  <div class="profile-info">
+    <p><span class="label">Name:</span> <span class="value">John Doe</span></p>
+    <p><span class="label">Roll No:</span> <span class="value">CS21B001</span></p>
+    <p><span class="label">Email:</span> <span class="value">john.doe@college.edu</span></p>
+  </div>
+  <div class="profile-buttons">
+    <button class="profile-btn change-password" onclick="changePassword()">🔒 Change Password</button>
+    <button class="profile-btn logout" onclick="logout()">🚪 Logout</button>
+  </div>
+</div>
+
+
+
+
+
+
+    <button class="nav-more-button" aria-haspopup="true" aria-expanded="false" aria-label="Open menu options">⋮</button>
+    <div class="dropdown-menu" role="menu" aria-label="Additional content menu">
+      <button data-target="2" role="menuitem" tabindex="-1">Daily Specials</button>
+      <button data-target="3" role="menuitem" tabindex="-1">Your Cart</button>
+      <button data-target="4" role="menuitem" tabindex="-1">Reviews & Offers</button>
+      <button data-target="detail" role="menuitem" tabindex="-1">Food Details</button>
+    </div>
+  </nav>
+
+  <main class="parent" aria-label="Menu content area">
+    <div class="div1" tabindex="0" aria-live="polite">
+      <p>Select a food item from the menu below to see its details here.</p>
+    </div>
+
+    <div class="div2">
+      <h3>🌟 Today's Specials</h3>
+      <p><strong>Lunch Combo:</strong> Any main dish + drink + dessert</p>
+      <p style="color: #d35400; font-weight: 700;">Only ₹199</p>
+      <p><strong>Happy Hours:</strong> 2-4 PM - 20% off beverages</p>
+      <p><strong>Student Discount:</strong> Show ID for 10% off</p>
+    </div>
+
+    <div class="div3">
+      <div class="cart-title">Your Cart</div>
+      <div class="cart-items"></div>
+      <div class="cart-total"></div>
+      <div class="place-order-container" role="button" tabindex="0" aria-label="Place your order">
+        Place Order
+        <div class="place-order-description">Take your food in 10 minutes</div>
+      </div>
+    </div>
+
+    <div class="div4">
+      <h3>⭐ Reviews & Offers</h3>
+      <p><strong>Rahul S.:</strong> "Amazing food quality!"</p>
+      <p style="color: #388e3c;">★★★★★</p>
+      <p><strong>Priya M.:</strong> "Best canteen on campus."</p>
+      <p style="color: #388e3c;">★★★★☆</p>
+      <hr style="border: 1px solid #fbc68d;">
+      <p><strong>🎉 Weekend Offer:</strong> Buy 2 Get 1 Free on desserts</p>
+    </div>
+
+    <div class="div5" aria-label="Canteen menu list">
+      <h3>Menu Items</h3>
+    </div>
+  </main>
+
+  <script>
+
+
+
+
+    const userProfile = document.querySelector('.user-profile');
+    const emojis = ["😎", "🍔", "🍕", "🥗", "🌟", "😃", "🧑‍🎓", "👨‍🍳", "🐔"];
+    userProfile.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+
+    
+
+
+
+
+
+const profilePopup = document.getElementById('profilePopup');
+
+userProfile.addEventListener('click', (e) => {
+  e.stopPropagation();
+  // Hide dropdown if open
+  document.querySelector('.dropdown-menu').classList.remove('show');
+  profilePopup.classList.toggle('show');
+});
+
+function changePassword() {
+  alert('Change Password functionality will be implemented here!');
+  profilePopup.classList.remove('show');
+}
+
+function logout() {
+  if(confirm('Are you sure you want to logout?')) {
+    alert('Logout functionality will be implemented here!');
+    profilePopup.classList.remove('show');
+  }
+}
+
+// Hide profile popup on clicking outside
+document.addEventListener('click', () => {
+  profilePopup.classList.remove('show');
+});
+
+
+
+
+
+
+
+
+
+
+
+    const vegItems = [
+      {id: 1, name: "Paneer Tikka", price: 120, rating: 4.5, veg: true, img: "https://i.imgur.com/3mGpB2A.jpg", desc: "Delicious grilled paneer cubes with spices."},
+      {id: 2, name: "Veg Biryani", price: 150, rating: 4.7, veg: true, img: "https://i.imgur.com/IDgjYpu.jpg", desc: "Fragrant basmati rice cooked with veggies and spices."},
+      {id: 3, name: "Masala Dosa", price: 80, rating: 4.3, veg: true, img: "https://i.imgur.com/6k9VhcN.jpg", desc: "Crispy dosa with spicy potato filling."},
+      {id: 10, name: "Chole Bhature", price: 110, rating: 4.4, veg: true, img: "https://i.imgur.com/ABC123.jpg", desc: "Fluffy bhature with spicy chickpea curry."},
+      {id: 11, name: "Aloo Paratha", price: 90, rating: 4.2, veg: true, img: "https://i.imgur.com/DEF456.jpg", desc: "Stuffed potato paratha with yogurt and pickle."}
+    ];
+    const nonVegItems = [
+      {id: 4, name: "Chicken Curry", price: 180, rating: 4.8, veg: false, img: "https://i.imgur.com/vITr1Im.jpg", desc: "Spicy and savory chicken curry."},
+      {id: 5, name: "Fried Fish", price: 220, rating: 4.6, veg: false, img: "https://i.imgur.com/tmQWxCe.jpg", desc: "Crispy fried fish fillets with spices."},
+      {id: 6, name: "Mutton Kebab", price: 200, rating: 4.7, veg: false, img: "https://i.imgur.com/kJHDpBz.jpg", desc: "Tender juicy mutton kebabs grilled to perfection."},
+      {id: 12, name: "Chicken Biryani", price: 190, rating: 4.9, veg: false, img: "https://i.imgur.com/GHI789.jpg", desc: "Aromatic basmati rice with tender chicken pieces."},
+      {id: 13, name: "Fish Fry", price: 160, rating: 4.5, veg: false, img: "https://i.imgur.com/JKL012.jpg", desc: "Golden fried fish with coastal spices."}
+    ];
+    const dessertItems = [
+      {id: 7, name: "Gulab Jamun", price: 60, rating: 4.4, veg: true, img: "https://i.imgur.com/TXWtYLn.jpg", desc: "Soft and sweet syrup soaked dumplings."},
+      {id: 8, name: "Chocolate Brownie", price: 90, rating: 4.6, veg: true, img: "https://i.imgur.com/NZ7K4sb.jpg", desc: "Rich and fudgy chocolate brownie."},
+      {id: 9, name: "Cold Drink", price: 40, rating: 4.0, veg: true, img: "https://i.imgur.com/TqywuHt.jpg", desc: "Refreshing cold beverages."},
+      {id: 14, name: "Ice Cream", price: 50, rating: 4.3, veg: true, img: "https://i.imgur.com/MNO345.jpg", desc: "Creamy vanilla and chocolate ice cream."},
+      {id: 15, name: "Kulfi", price: 45, rating: 4.2, veg: true, img: "https://i.imgur.com/PQR678.jpg", desc: "Traditional Indian frozen dessert."}
+    ];
+
+    const vegBtn = document.getElementById('vegBtn');
+    const nonVegBtn = document.getElementById('nonVegBtn');
+    const dessertBtn = document.getElementById('dessertBtn');
+    const menuSearch = document.getElementById('menuSearch');
+    const menuList = document.querySelector('.div5');
+    const detailDiv = document.querySelector('.div1');
+    const cartDiv = document.querySelector('.div3');
+    const cartItemsDiv = cartDiv.querySelector('.cart-items');
+    const cartTotalDiv = cartDiv.querySelector('.cart-total');
+    const placeOrderBtnCart = cartDiv.querySelector('.place-order-container');
+    const navMoreBtn = document.querySelector('.nav-more-button');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+
+    let currentMenu = "veg";
+    let filteredItems = [];
+    let cart = [];
+    let orderNumberDisplayed = false;
+
+    function showDetail(item) {
+      orderNumberDisplayed = false;
+      detailDiv.innerHTML = `
+        <img src="${item.img}" alt="${item.name}" />
+        <h2>${item.name}</h2>
+        <p>${item.desc}</p>
+        <p class="price">Price: ₹${item.price}</p>
+        <p class="rating">Rating: ${item.rating} ⭐</p>
+        <p class="type-label">${item.veg ? "🌱 Vegetarian" : "🍖 Non-Vegetarian"}</p>
+        <div class="btn-group">
+          <button id="addToCartBtn" class="btn-add">Add to Cart</button>
+          <button id="placeOrderBtnDiv1" class="btn-place">Place Order</button>
+        </div>
+      `;
+      document.getElementById("addToCartBtn").addEventListener('click', () => addToCart(item));
+      document.getElementById("placeOrderBtnDiv1").addEventListener('click', placeOrder);
+    }
+
+    function renderMenuList(items) {
+      const menuTitle = menuList.querySelector('h3');
+      menuList.innerHTML = "";
+      if(menuTitle) menuList.appendChild(menuTitle);
+      
+      if(items.length === 0) {
+        menuList.innerHTML += "<p style='padding: 12px;'>No items found.</p>";
+        detailDiv.innerHTML = '<p>Select a food item from the menu to see its details here.</p>';
+        return;
+      }
+      items.forEach(item => {
+        let div = document.createElement('div');
+        div.className = 'menu-item';
+        div.textContent = item.name;
+        div.tabIndex = 0;
+        div.setAttribute('role','button');
+        div.setAttribute('aria-pressed', 'false');
+        div.addEventListener('click', () => setActiveItem(div, item));
+        div.addEventListener('keydown', (e) => {
+          if(e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setActiveItem(div, item);
+          }
+        });
+        menuList.appendChild(div);
+      });
+      if(menuList.children.length > 1) {
+        setActiveItem(menuList.children[1], items[0]);
+      }
+    }
+
+    function setActiveItem(div, item) {
+      document.querySelectorAll('.menu-item.active').forEach(el => {
+        el.classList.remove('active');
+        el.setAttribute('aria-pressed', 'false');
+      });
+      div.classList.add('active');
+      div.setAttribute('aria-pressed', 'true');
+      showDetail(item);
+    }
+
+    function addToCart(item) {
+      const existing = cart.find(ci => ci.id === item.id);
+      if(existing) existing.qty++;
+      else cart.push({...item, qty:1});
+      renderCart();
+    }
+
+    function renderCart() {
+      if(cart.length === 0) {
+        cartItemsDiv.innerHTML = '<p>Your cart is empty.</p>';
+        cartTotalDiv.textContent = '';
+        return;
+      }
+      cartItemsDiv.innerHTML = '';
+      let totalPrice = 0;
+      cart.forEach(ci => {
+        const itemTotal = ci.price * ci.qty;
+        totalPrice += itemTotal;
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `<span>${ci.name}</span><span>x${ci.qty} - ₹${itemTotal}</span>`;
+        cartItemsDiv.appendChild(div);
+      });
+      cartTotalDiv.textContent = `Total: ₹${totalPrice}`;
+    }
+
+    function placeOrder() {
+      if(cart.length === 0) {
+        alert('Your cart is empty! Please add items before placing the order.');
+        return;
+      }
+      const orderNumber = Math.floor(1000 + Math.random() * 900000);
+      cart = [];
+      renderCart();
+      detailDiv.innerHTML = `
+        <div class="order-number">
+          🎉 Your order is placed!<br>
+          Order Number: <strong>#${orderNumber}</strong>
+        </div>
+        <p style="text-align: center; font-size: 1.1rem; color: #4e342e;">Take your food in 10 minutes</p>
+      `;
+      orderNumberDisplayed = true;
+      menuList.querySelectorAll('.menu-item.active').forEach(el => el.classList.remove('active'));
+    }
+
+    function filterItems(term) {
+      term = term.toLowerCase();
+      let source = [];
+      if(currentMenu === "veg") source = vegItems;
+      else if(currentMenu === "nonveg") source = nonVegItems;
+      else source = dessertItems;
+      filteredItems = source.filter(i => i.name.toLowerCase().includes(term));
+      renderMenuList(filteredItems);
+    }
+
+    function setActiveMenu(menuType) {
+      currentMenu = menuType;
+      vegBtn.classList.remove('active');
+      nonVegBtn.classList.remove('active');
+      dessertBtn.classList.remove('active');
+
+      if(menuType === "veg") {
+        vegBtn.classList.add('active');
+        vegBtn.setAttribute('aria-selected', 'true');
+        vegBtn.setAttribute('tabindex', '0');
+      } else if(menuType === "nonveg") {
+        nonVegBtn.classList.add('active');
+        nonVegBtn.setAttribute('aria-selected', 'true');
+        nonVegBtn.setAttribute('tabindex', '0');
+      } else {
+        dessertBtn.classList.add('active');
+        dessertBtn.setAttribute('aria-selected', 'true');
+        dessertBtn.setAttribute('tabindex', '0');
+      }
+
+      if(menuType !== "veg") {
+        vegBtn.setAttribute('aria-selected', 'false');
+        vegBtn.setAttribute('tabindex', '-1');
+      }
+      if(menuType !== "nonveg") {
+        nonVegBtn.setAttribute('aria-selected', 'false');
+        nonVegBtn.setAttribute('tabindex', '-1');
+      }
+      if(menuType !== "dessert") {
+        dessertBtn.setAttribute('aria-selected', 'false');
+        dessertBtn.setAttribute('tabindex', '-1');
+      }
+
+      menuSearch.value = "";
+      if(!orderNumberDisplayed) filterItems('');
+    }
+
+    vegBtn.addEventListener('click', () => setActiveMenu("veg"));
+    nonVegBtn.addEventListener('click', () => setActiveMenu("nonveg"));
+    dessertBtn.addEventListener('click', () => setActiveMenu("dessert"));
+    menuSearch.addEventListener('input', (e) => filterItems(e.target.value));
+    if(placeOrderBtnCart) placeOrderBtnCart.addEventListener('click', placeOrder)
+    ;
+
+    // Mobile 3-dot menu functionality
+    navMoreBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const expanded = navMoreBtn.getAttribute('aria-expanded') === 'true';
+      if(expanded) {
+        dropdownMenu.classList.remove('show');
+        navMoreBtn.setAttribute('aria-expanded', 'false');
+      } else {
+        dropdownMenu.classList.add('show');
+        navMoreBtn.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    document.addEventListener('click', () => {
+      dropdownMenu.classList.remove('show');
+      navMoreBtn.setAttribute('aria-expanded', 'false');
+    });
+
+    function showContent(target) {
+      dropdownMenu.classList.remove('show');
+      navMoreBtn.setAttribute('aria-expanded', 'false');
+      switch(target) {
+        case '2':
+          detailDiv.innerHTML = document.querySelector('.div2').innerHTML;
+          break;
+        case '3':
+          detailDiv.innerHTML = `<h2>Your Cart</h2>${cartItemsDiv.innerHTML || '<p>Your cart is empty.</p>'}${cartTotalDiv.textContent ? `<p>${cartTotalDiv.textContent}</p>` : ''}`;
+          break;
+        case '4':
+          detailDiv.innerHTML = document.querySelector('.div4').innerHTML;
+          break;
+        case 'detail':
+        default:
+          if(document.querySelector('.menu-item.active')) {
+            document.querySelector('.menu-item.active').click();
+          } else {
+            detailDiv.innerHTML = '<p>Select a food item from the menu to see its details here.</p>';
+          }
+          break;
+      }
+      orderNumberDisplayed = false;
+    }
+
+    dropdownMenu.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showContent(btn.getAttribute('data-target'));
+      });
+    });
+
+    setActiveMenu("veg");
+  </script>
+</body>
+</html>
